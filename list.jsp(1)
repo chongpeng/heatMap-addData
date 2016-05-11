@@ -1,0 +1,5 @@
+
+加入访问接口：
+
+   <a	href="<%=request.getContextPath()%>/user/project/report/lightningIntensity3.htm?id=${subproject.id}">生成雷电流强度分布图</a>
+			

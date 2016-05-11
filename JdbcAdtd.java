@@ -1,5 +1,6 @@
 	  
 	#将从数据库中查到的值，采用插值法，扩展为  index*index个数据
+	#关于从数据库中查询数据的过程，可以参考我的  reporsity: heatMap--heatmap.js
 	  public BufferedImage ltJson3New(Subproject a,HttpServletRequest request) throws IOException{
 			   JdbcAdtd db = new JdbcAdtd();
 		    	int year=a.getYear(a.getDate())-1;

@@ -1,0 +1,29 @@
+//改进生成雷电流强度分布图的方法
+	/**   作者：pc  2016-05-08
+	  *  该方法使用JFreeChart 生成雷电流强度分布图
+	  */
+	@RequestMapping(value = "/user/project/report/lightningIntensity3", method = RequestMethod.GET)
+	public ModelAndView lightningIntensityNew(String id,HttpServletRequest request) throws Exception {
+		/**
+		 *显示项目前年10公里范围内的闪电分布
+		 * */
+		JdbcAdtd jdbcadtd=new JdbcAdtd();   
+		 Subproject subproject =subprojectService.getSubproject(Long.valueOf(id));
+	BufferedImage b= jdbcadtd.ltJson3New(subprojectService.getSubproject(Long.valueOf(id)), request);
+	/*********一下过程将BufferImage转为 Blob 并存入数据库中，这里不再展开***************/
+	
+	  File f=new File("雷电流强度分布图_"+id+".png");
+	  ImageIO.write(b, "png", f); 
+    //图像存入数据库
+	InputStream fis = new FileInputStream(f);
+	byte[] buffer = new byte[fis.available()];
+     fis.read(buffer);
+     Blob blob = org.hibernate.Hibernate.createBlob(buffer);
+	  subproject.setLightningIntensity_url(blob);
+	  subprojectService.update(subproject);
+		ModelAndView mv = new ModelAndView();
+		 String message="雷电流强度图已经生成";
+			mv.addObject("message", message);
+			mv.setViewName("/success");	
+		return mv;
+	}
